@@ -1,0 +1,25 @@
+kafka:
+   bootstrap-servers: localhost:9092
+   topic.request-topic: request-user
+   topic.reply-topic: reply-user
+   consumergroup: requestreplygorup-user
+
+server:
+  port: 3002
+
+
+
+spring:
+  data:
+    elasticsearch:
+      rest:
+        uris: http://localhost:9200
+      cluster-nodes: localhost:9300
+      cluster-name: elasticsearch_rahulgoyal
+  application:
+    name: consumer
+  kafka:
+    consumer:
+      group-id: requestreplygorup-user
+      auto-offset-reset: earliest
+      enable-auto-commit: false

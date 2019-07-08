@@ -1,0 +1,19 @@
+kafka:
+   bootstrap-servers: localhost:9092
+   topic.request-topic: request-user
+   topic.reply-topic: reply-user
+   consumergroup: requestreplygorup-user
+
+
+
+server:
+  port: 3000
+  
+spring:
+  application:
+    name: producer
+  kafka:
+    consumer:
+      group-id: requestreplygorup-user
+      auto-offset-reset: earliest
+      enable-auto-commit: false

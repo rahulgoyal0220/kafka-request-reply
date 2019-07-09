@@ -1,19 +1,25 @@
 package io.project.model;
 
+import java.io.Serializable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.io.Serializable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.stereotype.Component;
 
 
 @Data
 @NoArgsConstructor
 @ToString
-public class Employee implements Serializable {
+@Component
+@Document(indexName = "customer", type = "user")
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private String id;
     private Long userId;
     private Long companyId;

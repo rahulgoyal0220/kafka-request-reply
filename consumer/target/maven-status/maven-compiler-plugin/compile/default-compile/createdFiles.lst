@@ -1,8 +1,8 @@
+io/project/model/User.class
 io/project/services/ReplyingKafkaConsumer.class
-io/project/InfoController.class
 io/project/ConsumerApplication.class
-io/project/services/EmployeeServiceImpl.class
-io/project/services/EmployeeService.class
-io/project/repo/EmployeeRepository.class
-io/project/model/Employee.class
+io/project/services/UserServiceImpl.class
+io/project/resource/UserController.class
+io/project/repo/UserRepository.class
 io/project/app/KafkaConfig.class
+io/project/services/UserService.class

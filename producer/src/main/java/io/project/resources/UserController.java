@@ -1,8 +1,8 @@
 package io.project.resources;
 
-import io.project.model.Employee;
-
 import java.util.concurrent.ExecutionException;
+
+import io.project.model.User;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class InfoController {
+public class UserController {
 
     @Autowired
-    private ReplyingKafkaTemplate<String, Employee, Employee> kafkaTemplate;
+    private ReplyingKafkaTemplate<String, User, User> kafkaTemplate;
 
     @Value("${kafka.topic.request-topic}")
     private String requestTopic;
@@ -30,23 +30,23 @@ public class InfoController {
     private String replyTopic;
 
     @ResponseBody
-    @PostMapping(value = "/employee", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Employee post(@RequestBody Employee request) throws InterruptedException, ExecutionException {
+    @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public User getUser(@RequestBody User request) throws InterruptedException, ExecutionException {
         // create producer record
-        ProducerRecord<String, Employee> record = new ProducerRecord<>(requestTopic, request);
+        ProducerRecord<String, User> record = new ProducerRecord<>(requestTopic, request);
         // set reply topic in header
         record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, replyTopic.getBytes()));
         // post in kafka topic
-        RequestReplyFuture<String, Employee, Employee> sendAndReceive = kafkaTemplate.sendAndReceive(record);
+        RequestReplyFuture<String, User, User> sendAndReceive = kafkaTemplate.sendAndReceive(record);
 
         // confirm if producer produced successfully
-        SendResult<String, Employee> sendResult = sendAndReceive.getSendFuture().get();
+        SendResult<String, User> sendResult = sendAndReceive.getSendFuture().get();
 
         //print all headers
         sendResult.getProducerRecord().headers().forEach(header -> System.out.println(header.key() + ":" + header.value().toString()));
 
         // get consumer record
-        ConsumerRecord<String, Employee> consumerRecord = sendAndReceive.get();
+        ConsumerRecord<String, User> consumerRecord = sendAndReceive.get();
         // return consumer value
         return consumerRecord.value();
     }

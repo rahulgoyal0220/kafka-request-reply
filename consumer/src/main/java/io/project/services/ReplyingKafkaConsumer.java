@@ -1,6 +1,6 @@
 package io.project.services;
 
-import io.project.repo.EmployeeRepository;
+import io.project.repo.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 
-import io.project.model.Employee;
+import io.project.model.User;
 
 
 @Component
@@ -20,21 +20,22 @@ public class ReplyingKafkaConsumer {
     private Logger logger = LoggerFactory.getLogger(ReplyingKafkaConsumer.class.getName());
 
     @Autowired
-    private EmployeeService employeeService;
+    private UserService userService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
 
     @KafkaListener(topics = "${kafka.topic.request-topic}")
     @SendTo
-    public Employee listen(@Payload Employee request, @Header(KafkaHeaders.CORRELATION_ID) String id) throws InterruptedException {
+    public User listen(@Payload User request, @Header(KafkaHeaders.CORRELATION_ID) String id) throws InterruptedException {
         logger.info("Request data: "+ request.getUserId());
         logger.info("Correlation id: "+ id);
-        Employee response = employeeService.getEmployeeById(request.getUserId());
+
+        User response = userService.getUserById(request.getUserId());
         if(response == null){
 //            response = employeeRepository.findAll();
         }else {
-            logger.info("Employee response " + response.toString());
+            logger.info("User response " + response.toString());
         }
         return response;
     }

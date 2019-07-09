@@ -1,5 +1,6 @@
 # kafka-request-reply
 Spring Kafka RequestReply template with elasticsearch
+Java 1.8 and Maven 3.6.1
 
 1. Setup and Run Kafka Confluent : https://docs.confluent.io/3.1.1/installation.html
 2. Setup and Run elasticDB : https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
